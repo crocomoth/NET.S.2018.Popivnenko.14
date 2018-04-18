@@ -34,7 +34,7 @@ namespace NET.S._2018.Popivnenko._14.BankService.Service
         public BankService()
         {
             this.bankAccountRepository = new BankAccountRepository();
-            currentSerialNumber = "1";
+            currentSerialNumber = "0";
         }
 
         /// <summary>
@@ -105,6 +105,23 @@ namespace NET.S._2018.Popivnenko._14.BankService.Service
         {
             IBankAccount bankAccount = bankAccountRepository.GetByNumber(number);
             bankAccount?.SetActive();
+        }
+
+        /// <summary>
+        /// Gets <see cref="BankAccount"/> by a provided serial number.
+        /// throws <exception cref="ArgumentNullException"></exception> if name is null
+        /// </summary>
+        /// <param name="name">Serial number of a card.</param>
+        /// <returns>BankAccount if it finds one.</returns>
+        public IBankAccount GetBankAccount(string name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            IBankAccount bankAccount = bankAccountRepository.GetByNumber(name);
+            return bankAccount;
         }
 
         private int AddFundsPointChanger(int value)

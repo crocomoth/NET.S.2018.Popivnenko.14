@@ -4,6 +4,8 @@ namespace NET.S._2018.Popivnenko._14.BanlLibInterfaces.Interfaces
 {
     public interface IBankAccount
     {
+        decimal Funds { get; }
+
         void AddFunds(decimal funds);
 
         void WithdrawFunds(decimal funds);

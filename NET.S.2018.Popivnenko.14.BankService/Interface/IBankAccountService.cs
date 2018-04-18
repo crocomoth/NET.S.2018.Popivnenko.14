@@ -1,4 +1,5 @@
 ﻿using NET.S._2018.Popivnenko._14.BanlLibInterfaces.Entities;
+using NET.S._2018.Popivnenko._14.BanlLibInterfaces.Interfaces;
 
 namespace NET.S._2018.Popivnenko._14.BankService.Interface
 {
@@ -15,5 +16,7 @@ namespace NET.S._2018.Popivnenko._14.BankService.Interface
         void SetInavtive(string number);
 
         void SetActive(string number);
+
+        IBankAccount GetBankAccount(string name);
     }
 }

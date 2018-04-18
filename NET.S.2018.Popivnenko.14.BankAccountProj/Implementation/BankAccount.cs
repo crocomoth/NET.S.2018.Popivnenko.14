@@ -43,6 +43,8 @@ namespace NET.S._2018.Popivnenko._14.BankAccountProj.Implementation
 
         public int BonusPoints { get => _bonusPoints; protected set => _bonusPoints = value; }
 
+        public decimal Funds { get => _funds; protected set => _funds = value; }
+
         /// <summary>
         /// Adds funds to the account.
         /// </summary>

@@ -13,6 +13,14 @@ namespace NET.S._2018.Popivnenko._14.DAL.Repositories
     {
         private List<IBankAccount> _list;
 
+        /// <summary>
+        /// General constructor for an object.
+        /// </summary>
+        public BankAccountRepository()
+        {
+            _list = new List<IBankAccount>();
+        }
+
         public List<IBankAccount> List { get => _list; protected set => _list = value; }
 
         /// <summary>
@@ -105,6 +113,15 @@ namespace NET.S._2018.Popivnenko._14.DAL.Repositories
             }
 
             List.Remove(account);
+        }
+
+        /// <summary>
+        /// Gets list of <see cref="IBankAccount"/> of accounts.
+        /// </summary>
+        /// <returns>List of accounts.</returns>
+        public List<IBankAccount> GetAllAccounts()
+        {
+            return _list;
         }
 
         /// <summary>
