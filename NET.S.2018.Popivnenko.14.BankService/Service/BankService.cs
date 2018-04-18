@@ -1,16 +1,48 @@
 ﻿using System;
 using NET.S._2018.Popivnenko._14.BankAccountProj.Implementation;
+using NET.S._2018.Popivnenko._14.BankService.Interface;
 using NET.S._2018.Popivnenko._14.BanlLibInterfaces.Entities;
 using NET.S._2018.Popivnenko._14.BanlLibInterfaces.Interfaces;
+using NET.S._2018.Popivnenko._14.DAL.Interfaces;
 using NET.S._2018.Popivnenko._14.DAL.Repositories;
 
 namespace NET.S._2018.Popivnenko._14.BankService.Service
 {
-    public class BankService
+    /// <summary>
+    /// Implements <see cref="IBankAccountService"/> and provides basic Services for accounts.
+    /// </summary>
+    public class BankService : IBankAccountService
     {
-        private BankAccountRepository bankAccountRepository;
+        private IAccountRepository bankAccountRepository;
         private volatile string currentSerialNumber;
 
+        /// <summary>
+        /// Constructor with specified repository and serial number.
+        /// throws <exception cref="ArgumentNullException"></exception> case any of parameters is null.
+        /// </summary>
+        /// <param name="bankAccountRepository">Repository to be used.</param>
+        /// <param name="currentSerialNumber">Current serial number.</param>
+        public BankService(IAccountRepository bankAccountRepository, string currentSerialNumber)
+        {
+            this.bankAccountRepository = bankAccountRepository ?? throw new ArgumentNullException(nameof(bankAccountRepository));
+            this.currentSerialNumber = currentSerialNumber ?? throw new ArgumentNullException(nameof(currentSerialNumber));
+        }
+
+        /// <summary>
+        /// Basic constructor for a class.
+        /// </summary>
+        public BankService()
+        {
+            this.bankAccountRepository = new BankAccountRepository();
+            currentSerialNumber = "1";
+        }
+
+        /// <summary>
+        /// Adds new account to repository.
+        /// </summary>
+        /// <param name="name">Name of account's owner.</param>
+        /// <param name="surname">Surname of account's owner.</param>
+        /// <param name="cardType"><see cref="CardType"/> of a card.</param>
         public void AddNewAccount(string name, string surname, CardType cardType)
         {
             BankAccount bankAccount = new BankAccount(GenerateNewNumber(), name, surname, cardType);
@@ -25,6 +57,11 @@ namespace NET.S._2018.Popivnenko._14.BankService.Service
             return currentSerialNumber;
         }
 
+        /// <summary>
+        /// Adds specified value to account's funds.
+        /// </summary>
+        /// <param name="number">Serial number of an account.</param>
+        /// <param name="value">Value to be added.</param>
         public void AddFundsToAccount(string number, decimal value)
         {
             IBankAccount bankAccount = bankAccountRepository.GetByNumber(number);
@@ -35,6 +72,11 @@ namespace NET.S._2018.Popivnenko._14.BankService.Service
             }
         }
 
+        /// <summary>
+        /// Withdraws funds from account specified by serial number.
+        /// </summary>
+        /// <param name="number">Serial number of an account.</param>
+        /// <param name="value">Value to be withdrawn.</param>
         public void WithdrawFundsFromAccount(string number, decimal value)
         {
             IBankAccount bankAccount = bankAccountRepository.GetByNumber(number);
@@ -45,10 +87,24 @@ namespace NET.S._2018.Popivnenko._14.BankService.Service
             }
         }
 
+        /// <summary>
+        /// Sets account to be inactive.
+        /// </summary>
+        /// <param name="number">Serial number of an account.</param>
         public void SetInavtive(string number)
         {
             IBankAccount bankAccount = bankAccountRepository.GetByNumber(number);
             bankAccount?.SetUnactive();
+        }
+
+        /// <summary>
+        /// Sets account to be active.
+        /// </summary>
+        /// <param name="number">Serial number of an account.</param>
+        public void SetActive(string number)
+        {
+            IBankAccount bankAccount = bankAccountRepository.GetByNumber(number);
+            bankAccount?.SetActive();
         }
 
         private int AddFundsPointChanger(int value)
