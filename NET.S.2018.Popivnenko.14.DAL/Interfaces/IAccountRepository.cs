@@ -20,5 +20,7 @@ namespace NET.S._2018.Popivnenko._14.DAL.Interfaces
         void RemoveAccount(IBankAccount account);
 
         void RemoveAccount(string number);
+
+        List<IBankAccount> GetAllAccounts();
     }
 }
